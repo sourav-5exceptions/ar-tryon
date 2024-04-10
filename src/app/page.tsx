@@ -1,5 +1,11 @@
+import React from "react";
+import AR_Detections from "./components/AR_Detections";
+import AR_Detections_FaceDetection from "./components/AR_Detections_FaceDetection";
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
+    <React.Fragment>
+      <AR_Detections />
+      {/* <AR_Detections_FaceDetection /> */}
+    </React.Fragment>
   );
 }
