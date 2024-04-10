@@ -35,9 +35,9 @@ const AR_Detections = () => {
         estimationConfig
       );
 
-      console.log("faces", faces);
+      // console.log("faces", faces);
       faces.map((face) => {
-        console.log("face.keypoints", face.keypoints);
+        // console.log("face.keypoints", face.keypoints);
         if (canvasRef.current) {
           canvasRef.current.width = videoWidth;
           canvasRef.current.height = videoHeight;
@@ -72,10 +72,10 @@ const AR_Detections = () => {
             }
           };
 
-          // const leftEye = getBodyPartData("leftEye");
-          const leftEye = face.keypoints[130];
-          // const rightEye = getBodyPartData("rightEye");
-          const rightEye = face.keypoints[359];
+          const leftEye = getBodyPartData("leftEye");
+          // const leftEye = face.keypoints[130];
+          const rightEye = getBodyPartData("rightEye");
+          // const rightEye = face.keypoints[359];
 
           if (leftEye && rightEye) {
             const eyeDistance = Math.sqrt(
@@ -88,7 +88,7 @@ const AR_Detections = () => {
             const scaleX = 0.01;
             const scaleY = -0.01;
             const offsetX = 0.05;
-            const offsetY = -0.1;
+            const offsetY = 0.01;
 
             glassesMesh.position.x =
               ((leftEye.x + rightEye.x) / 2 - videoWidth / 2) * scaleX +
@@ -97,9 +97,9 @@ const AR_Detections = () => {
               ((leftEye.y + rightEye.y) / 2 - videoHeight / 2) * scaleY +
               offsetY;
 
-            // glassesMesh.position.z = Math.min(leftEye.z, rightEye.z) * 0.01;
+            // glassesMesh.position.z = Math.min(leftEye.z, rightEye.z) * 0.1;
 
-            glassesMesh.scale.set(scaleMultiplier, scaleMultiplier, 1);
+            glassesMesh.scale.set(scaleMultiplier, -scaleMultiplier, 1);
             glassesMesh.position.z = 1;
 
             const eyeLine = new THREE.Vector2(
@@ -219,7 +219,7 @@ const AR_Detections = () => {
 
   useEffect(() => {
     if (detector && glassesMesh) {
-      const intervalId = setInterval(detectFacePoints, 10);
+      const intervalId = setInterval(detectFacePoints, 5);
 
       return () => clearInterval(intervalId);
     }
