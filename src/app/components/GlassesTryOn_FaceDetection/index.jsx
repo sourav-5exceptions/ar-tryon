@@ -9,7 +9,7 @@ import * as faceDetection from "@tensorflow-models/face-detection";
 import "@tensorflow/tfjs-backend-webgl";
 import "@mediapipe/face_detection";
 
-import GlassesSlider from "./GlassesSlider";
+import GlassesSlider from "../GlassesSlider";
 
 const AR_Detections_FaceDetection = () => {
   const webcamRef = useRef(null);
@@ -52,12 +52,12 @@ const AR_Detections_FaceDetection = () => {
           );
 
           // Draw each pose over canvas
-          face.keypoints.forEach(({ x, y }) => {
-            ctx.beginPath();
-            ctx.arc(x, y, 3, 0, 2 * Math.PI);
-            ctx.fillStyle = "lightblue";
-            ctx.fill();
-          });
+          //   face.keypoints.forEach(({ x, y }) => {
+          //     ctx.beginPath();
+          //     ctx.arc(x, y, 3, 0, 2 * Math.PI);
+          //     ctx.fillStyle = "lightblue";
+          //     ctx.fill();
+          //   });
 
           const bodyPointsWithName = [];
           face.keypoints.forEach(({ x, y, name }) => {
@@ -117,7 +117,7 @@ const AR_Detections_FaceDetection = () => {
         const model = faceDetection.SupportedModels.MediaPipeFaceDetector;
         const detectorConfig = {
           runtime: "tfjs", // or 'mediapipe',
-          maxFaces: 3,
+          // maxFaces: 3,
         };
         const detector = await faceDetection.createDetector(
           model,

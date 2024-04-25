@@ -1,11 +1,11 @@
 import React from "react";
-import AR_Detections from "./components/AR_Detections";
-import AR_Detections_FaceDetection from "./components/AR_Detections_FaceDetection";
+import GlassesTryOn_FaceLandmarksDetection from "./components/GlassesTryOn_FaceLandmarksDetection";
+import GlassesTryOn_FaceDetection from "./components/GlassesTryOn_FaceDetection";
 export default function Home() {
   return (
     <React.Fragment>
-      <AR_Detections />
-      {/* <AR_Detections_FaceDetection /> */}
+      <GlassesTryOn_FaceLandmarksDetection />
+      {/* <GlassesTryOn_FaceDetection /> */}
     </React.Fragment>
   );
 }

@@ -88,7 +88,7 @@ const AR_Detections = () => {
             const scaleX = 0.01;
             const scaleY = -0.01;
             const offsetX = 0.05;
-            const offsetY = 0.01;
+            const offsetY = 0.2;
 
             glassesMesh.position.x =
               ((leftEye.x + rightEye.x) / 2 - videoWidth / 2) * scaleX +
@@ -121,7 +121,7 @@ const AR_Detections = () => {
         const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
         const detectorConfig = {
           runtime: "tfjs", // or 'mediapipe',
-          maxFaces: 3,
+          // maxFaces: 3
         };
         const detector = await faceLandmarksDetection.createDetector(
           model,
@@ -219,7 +219,7 @@ const AR_Detections = () => {
 
   useEffect(() => {
     if (detector && glassesMesh) {
-      const intervalId = setInterval(detectFacePoints, 5);
+      const intervalId = setInterval(detectFacePoints, 70);
 
       return () => clearInterval(intervalId);
     }
