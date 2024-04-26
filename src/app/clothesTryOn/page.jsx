@@ -1,5 +1,5 @@
 import React from "react";
-import ClothesTryOn_PoseDetection from "../components/ClothesTryOn_PoseDetection";
+import ClothesTryOn_PoseDetection from "../../components/ClothesTryOn_PoseDetection";
 
 const ClothesTryOn = () => {
   return (

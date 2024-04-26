@@ -85,7 +85,7 @@ const ClothesTryOn = () => {
               const scaleX = 0.01;
               const scaleY = -0.01;
               const offsetX = 0.1;
-              const offsetY = -1;
+              const offsetY = -1.1;
 
               shirtMesh.position.x =
                 ((leftShoulder.x + rightShoulder.x) / 2 - videoWidth / 2) *

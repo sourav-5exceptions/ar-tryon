@@ -88,7 +88,7 @@ const AR_Detections = () => {
             const scaleX = 0.01;
             const scaleY = -0.01;
             const offsetX = 0.05;
-            const offsetY = 0.2;
+            const offsetY = 0.1;
 
             glassesMesh.position.x =
               ((leftEye.x + rightEye.x) / 2 - videoWidth / 2) * scaleX +
