@@ -9,15 +9,14 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as THREE from "three";
 
-import GlassesSlider from "../GlassesSlider";
-import ShirtsSlider from "../ShirtsSlider";
+import EarringsSlider from "../EarringsSlider";
 
-const ClothesTryOn = () => {
+const EarringsTryon = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [detector, setDetector] = useState(null);
-  const [setshirtSrc, setShirtSrc] = useState("/images/shirt1.png");
-  const [shirtMesh, setShirtMesh] = useState(null);
+  const [earringSrc, setEarringSrc] = useState("/images/earring1.png");
+  const [earringMesh, setEarringMesh] = useState(null);
   const [threejsScene, setThreejsScene] = useState(null);
 
   const detectPoses = async () => {
@@ -71,40 +70,38 @@ const ClothesTryOn = () => {
               }
             };
 
-            const leftShoulder = getBodyPartData("left_shoulder");
-            const rightShoulder = getBodyPartData("right_shoulder");
+            const leftEar = getBodyPartData("left_ear");
+            const rightEar = getBodyPartData("right_ear");
 
-            if (leftShoulder && rightShoulder) {
-              const shoulderDistance = Math.sqrt(
-                Math.pow(rightShoulder.x - leftShoulder.x, 2) +
-                  Math.pow(rightShoulder.y - leftShoulder.y, 2)
+            if (leftEar && rightEar) {
+              const earsDistance = Math.sqrt(
+                Math.pow(rightEar.x - leftEar.x, 2) +
+                  Math.pow(rightEar.y - leftEar.y, 2)
               );
 
-              const scaleMultiplier = shoulderDistance / 75; // Adjust shirtsWidth to match the model's width
+              const scaleMultiplier = earsDistance / 100; // Adjust shirtsWidth to match the model's width
 
-              const scaleX = 0.01;
-              const scaleY = -0.01;
-              const offsetX = 0.1;
-              const offsetY = -1.5;
+              const scaleX = -0.01;
+              const scaleY = 0.01;
+              const offsetX = -0.01;
+              const offsetY = -0.01;
 
-              shirtMesh.position.x =
-                ((leftShoulder.x + rightShoulder.x) / 2 - videoWidth / 2) *
-                  scaleX +
-                offsetX;
-              shirtMesh.position.y =
-                ((leftShoulder.y + rightShoulder.y) / 2 - videoHeight / 2) *
-                  scaleY +
-                offsetY;
+              earringMesh.position.x =
+                // (leftEar.x - videoWidth / 2) * scaleX + offsetX;
+                leftEar.x - (1 * scaleMultiplier) / 2;
+              earringMesh.position.y =
+                // (leftEar.y - videoHeight / 2) * scaleY + offsetY;
+                (leftEar.y + rightEar.y) / 2;
 
-              shirtMesh.scale.set(scaleMultiplier, -scaleMultiplier, 1);
-              shirtMesh.position.z = 0.1;
+              earringMesh.scale.set(scaleMultiplier, -scaleMultiplier, 1);
+              earringMesh.position.z = 1;
 
-              const shoulderLine = new THREE.Vector2(
-                rightShoulder.x - leftShoulder.x,
-                rightShoulder.y - leftShoulder.y
+              const earsLine = new THREE.Vector2(
+                rightEar.x - leftEar.x,
+                rightEar.y - leftEar.y
               );
-              const rotationZ = -Math.atan2(shoulderLine.y, shoulderLine.x);
-              shirtMesh.rotation.z = rotationZ;
+              const rotationZ = -Math.atan2(earsLine.y, earsLine.x);
+              earringMesh.rotation.z = rotationZ;
             }
           }
         });
@@ -124,7 +121,7 @@ const ClothesTryOn = () => {
           // modelType: poseDetection.movenet.modelType.MULTIPOSE_LIGHTNING,
           modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
           enableSmoothing: true,
-          multiPoseMaxDimension: 456,
+          multiPoseMaxDimension: 352,
         };
 
         const detector = await poseDetection.createDetector(
@@ -193,15 +190,15 @@ const ClothesTryOn = () => {
   }, []);
 
   useEffect(() => {
-    const setupShirtMesh = () => {
+    const setupEarringMesh = () => {
       if (threejsScene) {
-        const shirtWidth = 1.5;
-        const shirtHeight = 1.5;
+        const earringWidth = 1;
+        const shirtHeight = 1;
         // Glasses Mesh
         const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(setshirtSrc, (texture) => {
+        textureLoader.load(earringSrc, (texture) => {
           texture.colorSpace = THREE.SRGBColorSpace;
-          const geometry = new THREE.PlaneGeometry(shirtWidth, shirtHeight);
+          const geometry = new THREE.PlaneGeometry(earringWidth, shirtHeight);
           const material = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
@@ -211,24 +208,24 @@ const ClothesTryOn = () => {
           // console.log("shirt", shirt);
 
           threejsScene.add(shirt);
-          setShirtMesh(shirt);
+          setEarringMesh(shirt);
         });
       }
     };
 
-    if (setshirtSrc) {
-      shirtMesh && threejsScene.remove(shirtMesh);
-      setupShirtMesh();
+    if (earringSrc) {
+      earringMesh && threejsScene.remove(earringMesh);
+      setupEarringMesh();
     }
-  }, [setshirtSrc, threejsScene]);
+  }, [earringSrc, threejsScene]);
 
   useEffect(() => {
-    if (detector && shirtMesh) {
+    if (detector && earringMesh) {
       const intervalId = setInterval(detectPoses, 100);
 
       return () => clearInterval(intervalId);
     }
-  }, [detector, shirtMesh]);
+  }, [detector, earringMesh]);
 
   return (
     <div>
@@ -248,9 +245,9 @@ const ClothesTryOn = () => {
       </div>
 
       {/* <GlassesSlider setGlassesSrc={setGlassesSrc} /> */}
-      <ShirtsSlider setShirtSrc={setShirtSrc} />
+      <EarringsSlider setEarringSrc={setEarringSrc} />
     </div>
   );
 };
 
-export default ClothesTryOn;
+export default EarringsTryon;

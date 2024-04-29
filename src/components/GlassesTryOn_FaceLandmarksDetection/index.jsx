@@ -37,7 +37,7 @@ const AR_Detections = () => {
 
       // console.log("faces", faces);
       faces.map((face) => {
-        // console.log("face.keypoints", face.keypoints);
+        console.log("face.keypoints", face.keypoints);
         if (canvasRef.current) {
           canvasRef.current.width = videoWidth;
           canvasRef.current.height = videoHeight;
